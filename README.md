@@ -6,6 +6,7 @@
 <a href="https://github.com/Akopyan0/Northstar---Portfolio"><img src="assets/northstar-showcase.svg" alt="Featured project: Northstar Studio — explore the repository" width="100%" /></a>
 
 <!-- AUTO:PROJECTS_START -->
+
 <!-- AUTO:PROJECTS_END -->
 
 <p align="center">
