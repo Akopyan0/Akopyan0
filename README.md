@@ -30,7 +30,7 @@ A live index of my latest public, non-fork repositories. The GitHub workflow aut
 <table>
   <tbody>
     <tr>
-      <td width="50%"><a href="https://github.com/Akopyan0/Northstar---Portfolio"><img src="assets/projects/Northstar---Portfolio.svg" alt="Northstar Portfolio on GitHub" width="100%" /></a></td>
+      <td width="50%"><a href="https://github.com/Akopyan0/Northstar---Portfolio"><img src="assets/projects/Northstar---Portfolio.svg" alt="Northstar---Portfolio GitHub repository" width="100%" /></a></td>
       <td width="50%"></td>
     </tr>
   </tbody>
