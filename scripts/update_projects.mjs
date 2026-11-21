@@ -40,7 +40,7 @@ function card(repo,i){
   out+='<line x1="22" y1="160" x2="538" y2="160" stroke="#DAE1D7"/>';
   out+=text(22,185,11,p.forest,lang.toUpperCase(),false,'font-weight="700" letter-spacing=".8"');
   out+=text(538,185,11,p.forest,'SOURCE  /',false,'font-weight="700" letter-spacing=".8" text-anchor="end"');
-  out+='</svg>\\n';
+  out+='</svg>\n';
   return out;
 }
 async function repositories(){
