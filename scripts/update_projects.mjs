@@ -21,28 +21,27 @@ function wrap(raw,max=46,maxLines=2){
   return lines;
 }
 function card(repo,i){
-  const p=palette; const bg=(i%2===0?p.soft:p.paper);
+  const p=palette;
   const license=repo.license && repo.license.key && !['other','none'].includes(repo.license.key);
   const kicker=license?'OPEN SOURCE':'PUBLIC REPOSITORY';
-  const title=wrap(repo.name.replace(/[-_]+/g,' '),23,2);
-  const desc=wrap(repo.description || 'Source code and documentation.',58,2);
-  const lang=String(repo.language || 'SOFTWARE').toUpperCase().slice(0,22);
-  let result='<svg xmlns="http://www.w3.org/2000/svg" width="560" height="252" viewBox="0 0 560 252" role="img" aria-label="'+escapeXml(repo.name)+'">';
-  result+='<title>'+escapeXml(repo.name)+'</title><rect width="560" height="252" fill="'+bg+'"/>';
-  result+='<rect x=".5" y=".5" width="559" height="251" fill="none" stroke="'+p.line+'"/>';
-  result+='<rect x="28" y="29" width="13" height="13" fill="'+p.lime+'"/>';
-  function text(x,y,size,color,value,extra=''){return '<text x="'+x+'" y="'+y+'" font-family="Arial,Helvetica,sans-serif" font-size="'+size+'" font-weight="700" fill="'+color+'" '+extra+'>'+escapeXml(value)+'</text>';}
-  result+=text(51,41,11,p.forest,kicker,'letter-spacing="1"');
-  result+=text(530,41,11,p.muted,String(i+1).padStart(2,'0')+' / REPO','text-anchor="end" letter-spacing="1"');
-  result+='<line x1="28" y1="58" x2="532" y2="58" stroke="'+p.line+'"/>';
-  title.forEach((s,j)=>result+=text(28,108+j*35,31,p.deep,s,'letter-spacing="-1.3"'));
-  desc.forEach((s,j)=>result+=text(28,(title.length>1?178:162)+j*18,13,p.muted,s,'font-weight="500"'));
-  result+='<line x1="28" y1="214" x2="532" y2="214" stroke="'+p.line+'"/>';
-  result+='<rect x="28" y="230" width="7" height="7" fill="'+p.forest+'"/>';
-  result+=text(46,239,11,p.muted,lang,'letter-spacing=".6"');
-  result+=text(530,239,11,p.forest,'VIEW SOURCE','text-anchor="end" letter-spacing=".6"');
-  result+='</svg>\n';
-  return result;
+  const title=wrap(repo.name.replace(/[-_]+/g,' '),29,1)[0] || repo.name;
+  const desc=wrap(repo.description || 'Source code and documentation.',59,2);
+  const lang=String(repo.language || 'Software').slice(0,22);
+  function text(x,y,size,color,value,serif=false,attrs=''){
+    return '<text x="'+x+'" y="'+y+'" font-family="'+(serif?'Georgia,Times New Roman,serif':'Arial,Helvetica,sans-serif')+'" font-size="'+size+'" fill="'+color+'" '+attrs+'>'+escapeXml(value)+'</text>';
+  }
+  let out='<svg xmlns="http://www.w3.org/2000/svg" width="560" height="196" viewBox="0 0 560 196" role="img" aria-label="'+escapeXml(repo.name)+'">';
+  out+='<title>'+escapeXml(repo.name)+'</title><rect width="560" height="196" fill="#FAFBF7"/>';
+  out+='<line x1="22" y1="3" x2="538" y2="3" stroke="#DAE1D7"/>';
+  out+=text(22,30,11,p.muted,kicker,false,'font-weight="700" letter-spacing="1"');
+  out+=text(538,30,11,p.muted,String(i+1).padStart(2,'0'),false,'font-weight="700" text-anchor="end"');
+  out+=text(22,87,33,p.deep,title,true);
+  desc.forEach((s,j)=>{out+=text(22,119+j*20,13,p.muted,s,false);});
+  out+='<line x1="22" y1="160" x2="538" y2="160" stroke="#DAE1D7"/>';
+  out+=text(22,185,11,p.forest,lang.toUpperCase(),false,'font-weight="700" letter-spacing=".8"');
+  out+=text(538,185,11,p.forest,'SOURCE  /',false,'font-weight="700" letter-spacing=".8" text-anchor="end"');
+  out+='</svg>\\n';
+  return out;
 }
 async function repositories(){
   const token=process.env.GH_TOKEN || '';
@@ -61,11 +60,11 @@ async function repositories(){
   return all.filter(r=>
     r && r.owner && String(r.owner.login).toLowerCase()===owner.toLowerCase() &&
     typeof r.name==='string' && /^[A-Za-z0-9._-]{1,100}$/.test(r.name) &&
-    r.name.toLowerCase()!==owner.toLowerCase() && !r.private && !r.fork && !r.archived && !r.disabled
+    r.name.toLowerCase()!==owner.toLowerCase() && r.name!=='Northstar---Portfolio' && !r.private && !r.fork && !r.archived && !r.disabled
   ).sort((a,b)=>String(b.pushed_at||b.created_at||'').localeCompare(String(a.pushed_at||a.created_at||''))).slice(0,6);
 }
 function markup(repos){
-  if(!repos.length) return '<p>No public projects are available yet.</p>';
+  if(!repos.length) return '<p align="center"><img src="assets/projects-coming.svg" width="100%" alt="New public repositories will appear here automatically." /></p>';
   const lines=['<table>','  <tbody>'];
   for(let i=0;i<repos.length;i+=2){
     lines.push('    <tr>');
