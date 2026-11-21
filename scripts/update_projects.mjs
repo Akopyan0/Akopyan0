@@ -10,7 +10,7 @@ const folder = path.join(root, 'assets', 'projects');
 const palette = { deep:'#13241A', forest:'#203328', lime:'#D7EF73', paper:'#FCFCF8', soft:'#EEF2E8', line:'#D6DECF', muted:'#526054' };
 const escapeXml = (text) => String(text ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 function wrap(raw,max=46,maxLines=2){
-  const words=String(raw ?? '').replace(/\\s+/g,' ').trim().split(' ');
+  const words=String(raw ?? '').replace(/\s+/g,' ').trim().split(' ');
   const lines=[]; let line='';
   for(const word of words){
     if((line+' '+word).trim().length>max && line){lines.push(line);line='';}
